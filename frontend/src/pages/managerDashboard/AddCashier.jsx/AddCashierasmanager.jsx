@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
-import axios from "axios";
-import {useNavigate} from "react-router-dom"
 import {Form, FormControl,Button} from "react-bootstrap"
-import "./Signup.css"
-function Signup() {
+import { useNavigate } from 'react-router-dom';
+import axios from "axios"
+const AddCashierasmanager = () => {
   const  navigate = useNavigate();
-  const URL="http://localhost:5000/user/register";
+  const URL="http://localhost:5000/user/register-Cashier-Manager";
   const [userdetails,setuserdetail] = useState({
     email:'',
     name:'',
@@ -17,13 +16,17 @@ function Signup() {
 }
  const handleSubmit = async(e)=>{
       e.preventDefault();
+      const token = localStorage.getItem("token");
       try{
       const response = await axios.post(URL,{
         email:userdetails.email,
         name:userdetails.name,
         password:userdetails.password
-      }).then(()=>{navigate("/login")})
-      console.log(response.data);
+      },{
+        headers:{
+            "Authorization":`Bearer ${token}`
+        }
+      }).then(()=>{navigate("/Manager-dashboard")})
     }catch(error)
     {
       console.log(error);
@@ -37,9 +40,10 @@ function Signup() {
 
  }
   return (
-    <div className='center-form'>
+    <div>
+        <div className='center-form'>
       <Form onSubmit={handleSubmit}>
-          <h1>Sign up</h1>
+          <h1>Add Cashier</h1>
           <Form.Group controlId='formBasicEmail'>
               <Form.Label className='inputlabel'>Email address</Form.Label>
               <FormControl type="email" name="email" className='input' value={userdetails.email} onChange={handlechange} placeholder='enter email' required/>
@@ -57,7 +61,8 @@ function Signup() {
           </Button>
       </Form>
     </div>
+    </div>
   )
 }
 
-export default Signup
+export default AddCashierasmanager

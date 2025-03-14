@@ -15,9 +15,16 @@ const userSchema = mongoose.Schema({
     role:{
         type:String,
         required:true,
-        enum:["admin","customer"],
-        default:"customer"
+        enum:["Owner","Cashier","Manager"],
+        default:"Cashier"
+    },
+    otp:{
+        type:String,
+        default:''
+    },
+    otpExpiretime:{
+        type:Number,
+        default:0
     }
-
 })
 module.exports = mongoose.model("User",userSchema);

@@ -9,7 +9,7 @@ const createAdmin = async() =>{
             name:"Dineth prabasara",
             email:"adminrusira@gmail.com",
             password:await bcrypt.hash("rusira12345",10),
-            role:"admin"
+            role:"Owner"
         })
         try{
         await admin.save();

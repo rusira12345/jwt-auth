@@ -8,21 +8,21 @@ import "./header.css";
 function Header() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const lock = localStorage.getItem("lock");
   const handlelogout =()=>{
     localStorage.removeItem("token");
-    navigate('/login');
+    navigate('/');
   }
   return (
     <>
-      <Navbar bg={token ? "primary" :"dark"} variant='dark'>
+      <Navbar bg={token && !lock ? "primary" :"dark"} variant='dark'>
         <Container>
-          <Navbar.Brand><strong>{token ? "Logged-In" : "Not-LoggedIn"}</strong></Navbar.Brand>
+          <Navbar.Brand><strong>{token && !lock ? "Logged-In" : "Not-LoggedIn"}</strong></Navbar.Brand>
           <Nav className="ml-auto">
-             {token ? ( 
-              <><Nav.Link as={Link} to="/dashboard"  className='nav-link'>dashboard</Nav.Link>
-            <Nav.Link className='nav-link' onClick={handlelogout}>Log-out</Nav.Link></>
-            ):<><Nav.Link as={Link} to="/login"  className='nav-link'>Login</Nav.Link>
-            <Nav.Link as={Link} to="/register"  className='nav-link'>Sign up</Nav.Link></>
+             {token && !lock ? ( 
+            <Nav.Link className='nav-link' onClick={handlelogout}>Log-out</Nav.Link>
+            ):<Nav.Link as={Link} to="/"  className='nav-link'>Login</Nav.Link>
+            
             }
           </Nav>
         </Container>

@@ -4,6 +4,9 @@ const signupRoute = require("./source/routers/signup")
 const admincreation = require("./source/scripts/admin")
 const loginroute  = require("./source/routers/login");
 const userRoute = require("./source/routers/user");
+const otproute  = require("./source/routers/loginotp")
+const verifyotproute = require("./source/routers/verifyotp")
+const resetpassword = require("./source/routers/resetpasswords")
 const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
@@ -26,3 +29,6 @@ admincreation.createAdmin();
 app.use('/user',signupRoute);
 app.use('/auth',loginroute);
 app.use('/api',userRoute);
+app.use('/login',otproute);
+app.use('/login1',verifyotproute);
+app.use('/login2',resetpassword);

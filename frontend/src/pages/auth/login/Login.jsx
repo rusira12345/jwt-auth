@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {Form, FormControl,Button} from "react-bootstrap"
 import axios from "axios"
 import "../login/login.css"
-import {useNavigate} from "react-router-dom"
+import {useNavigate,Link} from "react-router-dom"
 function Login() {
   const navigate = useNavigate();
   let token;
@@ -23,9 +23,20 @@ function Login() {
           password:userdata.password
         }).then((res)=>
           {
-            token = res.data.token;
+            const token = res.data.token;
+            const role = res.data.role;
             localStorage.setItem("token",token);
-            navigate("/dashboard")
+            if(role==="Cashier")
+            {
+              navigate("/cashier-dashboard")
+            }else if(role === "Owner")
+            {
+              navigate("/owner-dashboard")
+            }
+            else if(role ==="Manager")
+            {
+              navigate("/Manager-dashboard")
+            }
           })
       }catch(error)
       {
@@ -43,6 +54,7 @@ function Login() {
           <Form.Group controlId='formBasicpassword'>
               <Form.Label className='inputlabel'>Password</Form.Label>
               <FormControl type="password" name="password" className='input' onChange={handleinput} placeholder='enter password' required/>
+              <Link className='link1' to="/email"><p>Forget Password</p></Link>
           </Form.Group>
           <Button variant="dark" type='submit' className='w-100'>
               login

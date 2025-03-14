@@ -7,6 +7,6 @@ const generateToken = (user) =>{
         email:user.email,
         role:user.role
     }
-    return jwt.sign(payload,secretkey,{expiresIn:"1h"})
+    return jwt.sign(payload,secretkey,{expiresIn:"24h"})
 }
 module.exports = {generateToken}
