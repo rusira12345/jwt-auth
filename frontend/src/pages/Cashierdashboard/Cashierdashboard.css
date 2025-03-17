@@ -1,0 +1,150 @@
+.barcodeform{
+    position: relative;
+    top:80px;
+    text-align: center;
+    background-color: whitesmoke;
+    width:300px;
+    padding:30px;
+    left:50px;
+    border-radius: 10px;
+    margin-bottom:10px ;
+}
+.inputbarcode{
+    outline: none;
+    border-radius: 10px;
+    padding: 5px;
+}
+.barcodebtn{
+    border:none;
+    border-radius: 10px;
+}
+.barcodebtn:hover{
+    color:white;
+    background-color:black;
+}
+.barcode{
+    left:50px;
+    position:relative;
+    top:60px;
+}
+.barcodenumber{
+    border: 1px solid rgb(49, 49, 49);
+    width:210px;
+    padding-right: 10px;
+    padding-left: 10px;
+    border-radius: 5px;
+    position: relative;
+    top:-39px;
+    left:150px;
+    height: 25px;
+}
+.header{
+    position:relative;
+    top:50px;
+    left:50px
+}
+.productname{
+    left:50px;
+    position:relative;
+    top:60px;
+}
+.productnames{
+    border: 1px solid rgb(49, 49, 49);
+    width:210px;
+    padding-right: 10px;
+    padding-left: 10px;
+    border-radius: 5px;
+    position: relative;
+    top:-39px;
+    left:150px;
+    height: 25px;
+}
+.productprice{
+    left:50px;
+    position:relative;
+    top:60px;
+}
+.productprices{
+    border: 1px solid rgb(49, 49, 49);
+    width:210px;
+    padding-right: 10px;
+    padding-left: 10px;
+    border-radius: 5px;
+    position: relative;
+    top:-39px;
+    left:150px;
+    height: 25px;
+}
+.productquantity{
+    left:50px;
+    position:relative;
+    top:60px;
+}
+.productquantitys{
+    border: 1px solid rgb(49, 49, 49);
+    width:210px;
+    padding-right: 10px;
+    padding-left: 10px;
+    border-radius: 5px;
+    position: relative;
+    top:-39px;
+    left:150px;
+    height: 25px;
+}
+.quantity{
+    left:50px;
+    position:relative;
+    top:60px;
+}
+.quantitys{
+    border: 1px solid rgb(49, 49, 49);
+    width:210px;
+    padding-right: 10px;
+    padding-left: 10px;
+    border-radius: 5px;
+    position: relative;
+    top:-39px;
+    left:150px;
+    height: 25px;
+}
+.total{
+    left:50px;
+    position:relative;
+    top:60px;
+}
+.totalprice{
+    border: 1px solid rgb(49, 49, 49);
+    width:210px;
+    padding-right: 10px;
+    padding-left: 10px;
+    border-radius: 5px;
+    position: relative;
+    top:-39px;
+    left:150px;
+    height: 25px;
+}
+.addproductform{
+    background-color:whitesmoke;
+    width:500px;
+    position:relative;
+    left:50px;
+    top:50px;
+    height:500px;
+    border-radius: 10px;
+}
+.addproductform .addbtn{
+    position: relative;
+    top:20px;
+    left:420px;
+    width:60px;
+    border-radius: 10px;
+    border: none;
+}
+.addproductform .addbtn:hover{
+    background-color: black;
+    color: white;
+}
+.paybtn:hover{
+    background-color: black;
+    color: white;
+}

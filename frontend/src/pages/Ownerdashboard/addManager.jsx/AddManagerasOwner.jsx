@@ -58,7 +58,7 @@ const AddManagerasOwner = () => {
               <FormControl type="password" name="password" className='input' value={userdetails.password} onChange={handlechange} placeholder='enter password' required/>
           </Form.Group>
           <Button variant="dark" type='submit' className='w-100'>
-              Sign up
+              Submit
           </Button>
       </Form>
     </div>
