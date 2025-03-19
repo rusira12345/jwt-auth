@@ -1,19 +1,40 @@
-import React, { useEffect, useState } from 'react'
+import React, {  useState } from 'react'
+import { loadStripe } from '@stripe/stripe-js'
 import axios from "axios"
 import "./Cashierdashboard.css"
 import {useNavigate} from "react-router-dom"
 import Table from 'react-bootstrap/Table';
 import { MdOutlineDeleteOutline } from "react-icons/md";
 const CashierDashboard = () => {
+  const APIKEY = "d97daff437071769fb004de9";
+  const BASE_URL = `https://v6.exchangerate-api.com/v6/${APIKEY}/latest/`
+  const convertCurrency = async(from,to,amount) =>
+    {
+        try{
+        const response  = await axios.get(`${BASE_URL}${from}`);
+        const rate = response.data.conversion_rates[to];
+        if (!rate) {
+            console.log(`Exchange rate for ${to} not found.`);
+            return;
+        }
+        var convertedAmount = (amount * rate).toFixed(2);
+        return convertedAmount;
+            }catch(error){
+                console.error("Error fetching exchange rate:",error.message);
+            }
+    }
+    
   const navigate = useNavigate();
   const [cartitems,setcartitems] = useState([]);
   const URL = "http://localhost:5000/product/search-product"
   const [paymenttype,setpaymenttype] = useState('');
   const [barcode,setbarcode] = useState('');
   const [pname,setpname] = useState('');
+  const [priceinusd,setpriceinUSd] = useState();
+  const [imageURL,setimageURL] = useState('');
   const [price,setprice] = useState('');
   const [availablequantity,setavailablequantity] = useState('');
-  const [quantity,setquantity] = useState(0);
+  const [quantity,setquantity] = useState(1);
   var total = quantity*price;
   const [barcodes,setbarcodes] = useState('');
   const totalprice = cartitems.reduce((acc, item) => acc + item.price, 0).toFixed(2);
@@ -31,7 +52,14 @@ const CashierDashboard = () => {
           setpname(res.data.ProductName)
           setprice(res.data.ProductPrice)
           setavailablequantity(res.data.Quantity)
-          setquantity(0);
+          setimageURL(res.data.pimage)
+          async function convertprice ()
+          {
+            const priceUSD = await convertCurrency("LKR","USD",res.data.ProductPrice)
+            setpriceinUSd(priceUSD);
+          }
+          convertprice();
+          setquantity(1);
           total = 0;
           setbarcode('');
       })
@@ -43,7 +71,9 @@ const CashierDashboard = () => {
         const newProduct = {
           productname:pname,
           quantity:quantity,
-          price:total
+          price:total,
+          image:imageURL,
+          priceUSD:priceinusd
         }
         setcartitems([...cartitems,newProduct]);
       }
@@ -55,11 +85,24 @@ const CashierDashboard = () => {
   {
     setcartitems(cartitems.filter((_,index)=>index!==deleteindex));
   }
-  function navigatepaymentportal()
+  
+  async function makepayment()
   {
       if(paymenttype==="Card" && totalprice>0)
       {
-          navigate("/payment-portal");
+          const stripe = await loadStripe("pk_test_51R4LrYGmCOaBKKe5apGEB8OKcERBIDiP4AjTcNEVgVjeFRqb1b90NCG5su6TscnoSdoSMHYZojc71NPuN92lQb5s00XABMPedZ");
+          const res = await axios.post(`http://localhost:5000/stripe/create-checkout-session`,{
+              items:cartitems
+          })
+          const session = await res.data;
+          const result = await stripe.redirectToCheckout({
+            sessionId:session.id
+          })
+          if(result.error)
+          {
+            console.log(result.error);
+            alert(result.error.message)
+          }
       }
       else{
         alert("error occured ");
@@ -132,7 +175,7 @@ const CashierDashboard = () => {
           </td>
           <td>Total</td>
           <td>{totalprice}</td>
-          <td><button onClick={navigatepaymentportal}className="paybtn" style={{width:"50px",borderRadius:'10px',border:"none",cursor:"pointer"}}>Pay</button></td>
+          <td><button onClick={makepayment} className="paybtn" style={{width:"50px",borderRadius:'10px',border:"none",cursor:"pointer"}}>Pay</button></td>
         </tr>
       </tbody>
     </Table>

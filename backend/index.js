@@ -1,5 +1,6 @@
 const express = require("express");
 const app  = express();
+const striperoute = require("./source/routers/Stripe")
 const signupRoute = require("./source/routers/signup")
 const admincreation = require("./source/scripts/admin")
 const loginroute  = require("./source/routers/login");
@@ -14,6 +15,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 app.use(express.json());
 app.use(cors());
+
 const PORT = process.env.PORT || 5000;
 const connectDB = async() =>{
     await mongoose.connect(process.env.URL).then(()=>{
@@ -34,3 +36,4 @@ app.use('/login',otproute);
 app.use('/login1',verifyotproute);
 app.use('/login2',resetpassword);
 app.use('/product',productroute);
+app.use('/stripe',striperoute)

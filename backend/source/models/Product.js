@@ -2,10 +2,12 @@ const mongoose = require("mongoose");
 const productSchema = mongoose.Schema({
     Barcode:{
         type:String,
-        required:true
+        required:true,
+        unique:true
     },
     ProductName:{
         type:String,
+        unique:true,
         required:true
     },
     ProductPrice:{
@@ -14,6 +16,10 @@ const productSchema = mongoose.Schema({
     },
     Quantity:{
         type:Number,
+        required:true
+    },
+    pimage:{
+        type:String,
         required:true
     }
 })

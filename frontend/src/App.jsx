@@ -27,6 +27,7 @@ function App() {
           <Route path="/manager-cashier" element={<AddCashierasmanager/>}/>
           <Route path="/Owner-manager" element={<AddManagerasOwner/>}/>
           <Route path="/payment-portal" element={<Paymentportal/>}></Route>
+
         </Routes>
     </div>
   )

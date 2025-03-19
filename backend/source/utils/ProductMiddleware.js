@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken")
 const {secretkey} = require("../configuration/jwtConfig")
 const authaddProducts = (req,res,next) =>{
-         const {Barcode,ProductName, ProductPrice,Quantity}= req.body;
+         const {Barcode,ProductName, ProductPrice,Quantity,pimage}= req.body;
         const tokenkey = req.header("Authorization");
          if(!Barcode || !ProductName || ! ProductPrice || !Quantity)
          {
@@ -29,7 +29,8 @@ const authaddProducts = (req,res,next) =>{
                             Barcode:Barcode,
                             ProductName:ProductName,
                             ProductPrice:ProductPrice,
-                            Quantity:Quantity
+                            Quantity:Quantity,
+                            pimage:pimage
                         }
                         next();
                 }

@@ -1,8 +1,8 @@
 const product = require("../models/Product")
 const addProduct = async(details) =>{
-         const {Barcode,ProductName, ProductPrice,Quantity}= details;
+         const {Barcode,ProductName, ProductPrice,Quantity,pimage}= details;
         const products = new product({
-                Barcode,ProductName,ProductPrice,Quantity
+                Barcode,ProductName,ProductPrice,Quantity,pimage
             })         
         await products.save();
         
