@@ -104,9 +104,11 @@ const CashierDashboard = () => {
             alert(result.error.message)
           }
       }
-      else{
-        alert("error occured ");
+      else if(paymenttype==="Cash" && totalprice>0) {
+        
+        navigate('/payment-cash');
       }
+      
   }
   return (
     <div>
@@ -168,7 +170,7 @@ const CashierDashboard = () => {
             ))
         }
         <tr>
-          <td>Paid By:<select onChange={(e)=>{setpaymenttype(e.target.value)}}>
+          <td>Paid By:<select defaultValue="Cash" onChange={(e)=>{setpaymenttype(e.target.value)}}>
               <option value="Cash">Cash</option>
               <option value="Card">Credit/Debit card</option>
             </select>

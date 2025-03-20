@@ -11,6 +11,7 @@ import AddCashierasOwner from "./pages/Ownerdashboard/addcashier.jsx/AddCashiera
 import AddCashierasmanager from "./pages/managerDashboard/AddCashier.jsx/AddCashierasmanager"
 import AddManagerasOwner from "./pages/Ownerdashboard/addManager.jsx/AddManagerasOwner"
 import Paymentportal from "./pages/paymentportal/Paymentportal"
+import Cash from "./pages/Cashierdashboard/Cash"
 function App() {
   return (
     <div>
@@ -27,7 +28,7 @@ function App() {
           <Route path="/manager-cashier" element={<AddCashierasmanager/>}/>
           <Route path="/Owner-manager" element={<AddManagerasOwner/>}/>
           <Route path="/payment-portal" element={<Paymentportal/>}></Route>
-
+          <Route path="/payment-cash" element={<Cash/>}></Route>
         </Routes>
     </div>
   )
