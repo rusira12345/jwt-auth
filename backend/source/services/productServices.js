@@ -16,4 +16,28 @@ const productSearch  = async(details)=>{
     const products = await product.findOne({Barcode})
     return products
 }
-module.exports = {addProduct,productSearch}
+const updateproductbycashier = async(item) =>{
+        const {items}=item
+        if(!items)
+        {
+            throw new Error("No products");
+        }
+        else{
+            for(let i=0;i<items.length;i++)
+            {
+                const productname = items[i].productname;
+                const quantity = items[i].quantity;
+                const existproduct = await product.findOne({ProductName:productname})
+                if(!existproduct)
+                {
+                    throw new Error("The product is not in the inventory");
+                }
+                else
+                {
+                    existproduct.Quantity=existproduct.Quantity- parseInt(quantity);
+                    await existproduct.save()
+                } 
+            }
+        }
+}
+module.exports = {addProduct,productSearch,updateproductbycashier}

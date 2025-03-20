@@ -1,0 +1,51 @@
+
+
+.cash{
+    background-color: whitesmoke;
+    
+    position:relative;
+    top:270px;
+    border:2px solid rgb(148, 144, 144);
+    border-radius: 10px;
+    padding: 10px;
+    padding-top: 15px;
+    width:400px;
+    height: 200px;
+    margin: auto;
+}
+.totalprice{
+    position: relative;
+    top:-25px;
+    
+}
+.input{
+    position: relative;
+    left:15px;
+    width: 213px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 7px;
+}
+.balance{
+    position: relative;
+    left:150px;
+    border:1px solid black;
+    padding-left:5px;
+    padding-right: 5px;
+    width: 213px;
+    border-radius: 7px;
+}
+.lbalance{
+    position:relative;
+    top:23px;
+}
+.submit{
+    position: relative;
+    top:15px;
+    left:160px;
+    border-radius: 5px;
+}
+.submit:hover{
+    color:white;
+    background-color: black;
+}

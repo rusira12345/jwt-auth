@@ -1,4 +1,4 @@
-const {addProduct,productSearch} = require("../services/productServices")
+const {addProduct,productSearch,updateproductbycashier} = require("../services/productServices")
 const addProducts = async(req,res)=>{
     const details = req.body;
     try{
@@ -19,4 +19,14 @@ const searchproductsss = async(req,res) =>{
         return res.status(400).json({message:error.message});
     }
 }
-module.exports = {addProducts,searchproductsss}
+const updateproductbycashiers = async(req,res) =>{
+    const items =req.body;
+    try{
+            await updateproductbycashier(items);
+            return res.status(200).json({message:"Updated successfully"});
+    }catch(error)
+    {
+        return res.status(400).json({message:error.message});
+    }
+}
+module.exports = {addProducts,searchproductsss,updateproductbycashiers}

@@ -67,4 +67,33 @@ const authsearchproduct = (req,res,next) =>{
       })
 
 }
-module.exports = {authaddProducts,authsearchproduct}
+const authcashier = (req,res,next) =>{
+   const {items} = req.body;
+   const tokenkey = req.header("Authorization");
+   if(!tokenkey)
+   {
+      return res.status(401).json({message:"Unauthorized. missing token"})
+   }
+   const [bearer,token] =  tokenkey.split(" ");
+   if(bearer!=="Bearer" || !token)
+      {
+         return res.status(401).json({message:"unauthorized:Invalid token format"})
+      }
+      jwt.verify(token,secretkey,(err,payload)=>{
+         if(err)
+         {
+            return res.status(403).json({message:"Forbidden: Invalid token"});
+         }
+         else{
+            const role = payload.role;
+            if(role==="Cashier")
+            {
+               req.body = {
+                  items:items
+               }
+               next();
+            }
+         }
+      })
+}
+module.exports = {authaddProducts,authsearchproduct,authcashier}

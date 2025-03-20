@@ -9,6 +9,7 @@ const otproute  = require("./source/routers/loginotp")
 const verifyotproute = require("./source/routers/verifyotp")
 const resetpassword = require("./source/routers/resetpasswords")
 const productroute = require("./source/routers/Productroute")
+const transactionroute = require("./source/routers/transactionroute")
 const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
@@ -36,4 +37,5 @@ app.use('/login',otproute);
 app.use('/login1',verifyotproute);
 app.use('/login2',resetpassword);
 app.use('/product',productroute);
-app.use('/stripe',striperoute)
+app.use('/stripe',striperoute);
+app.use('/transaction',transactionroute);

@@ -1,10 +1,11 @@
-import React, {  useState } from 'react'
+import React, {   useEffect, useState } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import axios from "axios"
 import "./Cashierdashboard.css"
 import {useNavigate} from "react-router-dom"
 import Table from 'react-bootstrap/Table';
 import { MdOutlineDeleteOutline } from "react-icons/md";
+import Cash from './Cash'
 const CashierDashboard = () => {
   const APIKEY = "d97daff437071769fb004de9";
   const BASE_URL = `https://v6.exchangerate-api.com/v6/${APIKEY}/latest/`
@@ -17,17 +18,17 @@ const CashierDashboard = () => {
             console.log(`Exchange rate for ${to} not found.`);
             return;
         }
-        var convertedAmount = (amount * rate).toFixed(2);
+        var convertedAmount = parseFloat((amount * rate).toFixed(2));
         return convertedAmount;
             }catch(error){
                 console.error("Error fetching exchange rate:",error.message);
             }
     }
-    
+   
   const navigate = useNavigate();
   const [cartitems,setcartitems] = useState([]);
   const URL = "http://localhost:5000/product/search-product"
-  const [paymenttype,setpaymenttype] = useState('');
+  const [paymenttype,setpaymenttype] = useState('Choose Payment type');
   const [barcode,setbarcode] = useState('');
   const [pname,setpname] = useState('');
   const [priceinusd,setpriceinUSd] = useState();
@@ -37,7 +38,7 @@ const CashierDashboard = () => {
   const [quantity,setquantity] = useState(1);
   var total = quantity*price;
   const [barcodes,setbarcodes] = useState('');
-  const totalprice = cartitems.reduce((acc, item) => acc + item.price, 0).toFixed(2);
+  const totalprice = parseFloat(cartitems.reduce((acc, item) => acc + item.price, 0).toFixed(2));
   const handleSubmit = async(e) =>{
     e.preventDefault();
     const token = localStorage.getItem("token");
@@ -86,9 +87,21 @@ const CashierDashboard = () => {
     setcartitems(cartitems.filter((_,index)=>index!==deleteindex));
   }
   
-  async function makepayment()
+  const makepayment =async() =>
   {
-      if(paymenttype==="Card" && totalprice>0)
+    if(totalprice<=0)
+    {
+      alert("total price must be greater than zero");
+    }
+    else if(paymenttype==="Cash") {
+      navigate('/payment-cash',{
+        state:{
+          total:totalprice,
+          items:cartitems
+        }
+      });
+    }
+    else if(paymenttype==="Card")
       {
           const stripe = await loadStripe("pk_test_51R4LrYGmCOaBKKe5apGEB8OKcERBIDiP4AjTcNEVgVjeFRqb1b90NCG5su6TscnoSdoSMHYZojc71NPuN92lQb5s00XABMPedZ");
           const res = await axios.post(`http://localhost:5000/stripe/create-checkout-session`,{
@@ -104,11 +117,7 @@ const CashierDashboard = () => {
             alert(result.error.message)
           }
       }
-      else if(paymenttype==="Cash" && totalprice>0) {
-        
-        navigate('/payment-cash');
-      }
-      
+      setpaymenttype("Choose Payment type");
   }
   return (
     <div>
@@ -170,7 +179,8 @@ const CashierDashboard = () => {
             ))
         }
         <tr>
-          <td>Paid By:<select defaultValue="Cash" onChange={(e)=>{setpaymenttype(e.target.value)}}>
+          <td>Paid By:<select defaultValue="Choose Payment type" onChange={(e)=>{setpaymenttype(e.target.value)}}>
+              <option >Choose Payment type</option>
               <option value="Cash">Cash</option>
               <option value="Card">Credit/Debit card</option>
             </select>
