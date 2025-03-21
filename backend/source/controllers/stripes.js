@@ -18,11 +18,13 @@ const stripess = async(req,res) =>{
                 quantity:item.quantity
             }
         ))
+        
         const session = await stripe.checkout.sessions.create({
             payment_method_types:["card"],
             line_items:lineItems,
             mode:"payment",
             success_url:"http://localhost:5173/cashier-dashboard",
+            metadata:{items:JSON.stringify(items)}
         })
         res.json({id:session.id});
 } 

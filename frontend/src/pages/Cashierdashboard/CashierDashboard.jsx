@@ -104,7 +104,7 @@ const CashierDashboard = () => {
     else if(paymenttype==="Card")
       {
           const stripe = await loadStripe("pk_test_51R4LrYGmCOaBKKe5apGEB8OKcERBIDiP4AjTcNEVgVjeFRqb1b90NCG5su6TscnoSdoSMHYZojc71NPuN92lQb5s00XABMPedZ");
-          const res = await axios.post(`http://localhost:5000/stripe/create-checkout-session`,{
+          const res = await axios.post(`http://localhost:5000/stripes/create-checkout-session`,{
               items:cartitems
           })
           const session = await res.data;
