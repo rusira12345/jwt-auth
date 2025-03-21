@@ -5,6 +5,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import {useNavigate} from "react-router-dom"
 import { Link } from 'react-router-dom';
 import "./header.css";
+import Freshfare from "./images/FRESHFARE.png"
+import icon from "./images/pic1.png"
 function Header() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
@@ -17,7 +19,12 @@ function Header() {
     <>
       <Navbar bg={token && !lock ? "primary" :"dark"} variant='dark'>
         <Container>
-          <Navbar.Brand><strong>{token && !lock ? "Logged-In" : "Not-LoggedIn"}</strong></Navbar.Brand>
+         
+          
+          <Navbar.Brand><strong>{token && !lock ?  <>
+                  <img src={icon} alt="Icon" />
+                  <span className='icon'>FRESHFARE</span>
+                </> : "Not-LoggedIn"}</strong></Navbar.Brand>
           <Nav className="ml-auto">
              {token && !lock ? ( 
             <Nav.Link className='nav-link' onClick={handlelogout}>Log-out</Nav.Link>

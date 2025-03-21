@@ -1,0 +1,13 @@
+.successbtn{
+    position:relative;
+    top:210px;
+    left:590px;
+    border-radius:10px;
+    padding:10px;
+    background-color: rgb(53, 101, 164);
+    border: none;
+}
+.btntext{
+    text-decoration: none;
+    color: white;
+}

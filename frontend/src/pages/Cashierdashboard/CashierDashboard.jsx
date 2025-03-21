@@ -5,7 +5,6 @@ import "./Cashierdashboard.css"
 import {useNavigate} from "react-router-dom"
 import Table from 'react-bootstrap/Table';
 import { MdOutlineDeleteOutline } from "react-icons/md";
-import Cash from './Cash'
 const CashierDashboard = () => {
   const APIKEY = "d97daff437071769fb004de9";
   const BASE_URL = `https://v6.exchangerate-api.com/v6/${APIKEY}/latest/`

@@ -1,9 +1,10 @@
 const dotenv = require("dotenv");
 dotenv.config();
-
-const stripe = require("stripe")("sk_test_51R4LrYGmCOaBKKe5FeIWJxaLv49wdVl3uybU55d4lBah62AmL3CbkkbS1UEdcvPoZ89gCvO0Y7Kxm4gHGf5mpF1I00K5Al6gdD")
+const transaction = require("../models/transaction")
+const product = require("../models/Product")
+const stripe = require("stripe")(process.env.SECRET_KEY )
 const stripess = async(req,res) =>{
-
+        let total = 0;
         const {items} = req.body;
         const lineItems = items.map((item)=>(
             {
@@ -13,20 +14,40 @@ const stripess = async(req,res) =>{
                         name:item.productname,
                         images:[item.image]
                     },
-                    unit_amount:item.priceUSD*100,
+                    unit_amount:Math.round(item.priceUSD*100),
                 },
                 quantity:item.quantity
             }
         ))
-        
+        try{
         const session = await stripe.checkout.sessions.create({
             payment_method_types:["card"],
             line_items:lineItems,
             mode:"payment",
-            success_url:"http://localhost:5173/cashier-dashboard",
-            metadata:{items:JSON.stringify(items)}
+            success_url:"http://localhost:5173/payment/successfull",
+            cancel_url:"http://localhost:5173/payment/unsuccessfull"
         })
-        res.json({id:session.id});
+        for(let i=0;i<items.length;i++)
+        {
+            total +=parseFloat(items[i].price);
+            const existingproduct = await product.findOne({ProductName:items[i].productname});
+            if(existingproduct)
+            {
+                existingproduct.Quantity = existingproduct.Quantity - items[i].quantity
+                await existingproduct.save();
+            }
+        }
+        const newtransaction = new transaction({
+            TotalPrice:total,
+            Customer_payment:total,
+            Balance:0
+        })
+        await newtransaction.save()
+        res.status(200).json({id:session.id});
+    }catch(error)
+    {
+        return res.status(404).json({message:"Session is not created"});
+    }
 } 
 
 

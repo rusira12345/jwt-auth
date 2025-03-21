@@ -4,7 +4,6 @@ const striperoute = require("./source/routers/Stripe")
 const signupRoute = require("./source/routers/signup")
 const admincreation = require("./source/scripts/admin")
 const loginroute  = require("./source/routers/login");
-const stripewebhookroute  = require("./source/routers/Stripewebhookroute")
 const userRoute = require("./source/routers/user");
 const otproute  = require("./source/routers/loginotp")
 const verifyotproute = require("./source/routers/verifyotp")
@@ -12,12 +11,10 @@ const resetpassword = require("./source/routers/resetpasswords")
 const productroute = require("./source/routers/Productroute")
 const transactionroute = require("./source/routers/transactionroute")
 const cors = require("cors");
-app.use(express.urlencoded({ extended: true }));
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 dotenv.config();
 app.use(cors());
-app.use("/stripe", express.raw({ type: "application/json" }),stripewebhookroute);
 app.use(express.json());
 
 
