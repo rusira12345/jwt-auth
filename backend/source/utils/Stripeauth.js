@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
-const {secretkey}  = require("../configuration/jwtConfig")
-const authtransaction = (req,res,next) =>{
-    const { TotalPrice,Customer_payment,Balance,email} = req.body;
+const {secretkey} = require("../configuration/jwtConfig")
+const authcashier = (req,res,next) =>{
+    const {items} = req.body;
     const authHeader = req.header("Authorization");
     if(!authHeader)
         {
@@ -12,7 +12,7 @@ const authtransaction = (req,res,next) =>{
         {
             return res.status(401).json({message:"unauthorized:Invalid token format"});
         }
-        jwt.verify(token,secretkey,(err,payload)=>{
+ jwt.verify(token,secretkey,(err,payload)=>{
             if(err)
             {
                 return res.status(403).json({message:"Forbidden: Invalid token"});
@@ -23,10 +23,7 @@ const authtransaction = (req,res,next) =>{
                 if(role==="Cashier")
                 {
                     req.body = {
-                        TotalPrice:TotalPrice,
-                        Customer_payment:Customer_payment,
-                        Balance:Balance,
-                        emails:email
+                       items:items
                     }
                     next()  
                 }
@@ -36,4 +33,4 @@ const authtransaction = (req,res,next) =>{
                 }
     }    })
 }
-module.exports = {authtransaction}
+module.exports ={authcashier}

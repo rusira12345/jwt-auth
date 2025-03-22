@@ -7,7 +7,7 @@ const Cash = () => {
   const URL = "http://localhost:5000/transaction/add"
   const updateURL = "http://localhost:5000/product/update"
   const location  = useLocation();
-    const{total,items} = location.state || {total:0,items:[]};
+    const{total,items,emails} = location.state || {total:0,items:[],emails:""};
     const [amount,setamount] = useState();
     const balance = parseFloat(amount)  - parseFloat(total)  ;
     const handlesubmit = async(e) =>{
@@ -16,7 +16,8 @@ const Cash = () => {
         await axios.post(URL,{
           TotalPrice:total,
           Customer_payment:amount,
-          Balance:`${balance}`
+          Balance:`${balance}`,
+          email:emails
         },{
           headers:{
               "Authorization":`Bearer ${token}`
@@ -30,7 +31,7 @@ const Cash = () => {
                       "Authorization":`Bearer ${token}`
                   }
                   }).then(()=>{
-                    navigate("/cashier-dashboard");
+                    navigate("/payment/successfull");
                   })
               }
               updateproducts();

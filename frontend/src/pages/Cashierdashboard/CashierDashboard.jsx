@@ -23,7 +23,7 @@ const CashierDashboard = () => {
                 console.error("Error fetching exchange rate:",error.message);
             }
     }
-   
+  const [email,setemail] = useState();
   const navigate = useNavigate();
   const [cartitems,setcartitems] = useState([]);
   const URL = "http://localhost:5000/product/search-product"
@@ -73,7 +73,8 @@ const CashierDashboard = () => {
           quantity:quantity,
           price:total,
           image:imageURL,
-          priceUSD:priceinusd
+          priceUSD:priceinusd,
+          email:email
         }
         setcartitems([...cartitems,newProduct]);
       }
@@ -85,7 +86,10 @@ const CashierDashboard = () => {
   {
     setcartitems(cartitems.filter((_,index)=>index!==deleteindex));
   }
-  
+  const handlesubmitemail =(e)=>{
+      e.preventDefault();
+      setemail(document.getElementById("emailip").value)
+  }
   const makepayment =async() =>
   {
     if(totalprice<=0)
@@ -96,15 +100,21 @@ const CashierDashboard = () => {
       navigate('/payment-cash',{
         state:{
           total:totalprice,
-          items:cartitems
+          items:cartitems,
+          emails:email
         }
       });
     }
     else if(paymenttype==="Card")
       {
           const stripe = await loadStripe("pk_test_51R4LrYGmCOaBKKe5apGEB8OKcERBIDiP4AjTcNEVgVjeFRqb1b90NCG5su6TscnoSdoSMHYZojc71NPuN92lQb5s00XABMPedZ");
+          const token = localStorage.getItem("token");
           const res = await axios.post(`http://localhost:5000/stripes/create-checkout-session`,{
               items:cartitems
+          },{
+            headers:{
+                "Authorization":`Bearer ${token}`
+            }
           })
           const session = await res.data;
           const result = await stripe.redirectToCheckout({
@@ -150,11 +160,19 @@ const CashierDashboard = () => {
         <br/><br/>
         <input type="text" className="inputbarcode" id="barcode" value={barcode} onChange={(e)=>{setbarcode(e.target.value)}}></input>
         <br/><br/>
-        <button type='submit' className='barcodebtn'>Submit</button>
+        <button disabled={!email} type='submit' className='barcodebtn'>Submit</button>
         </form>
       </div>
-      
-      <Table striped style={{ width: '50%', height: '200px', position:"relative",left:'700px' ,top:'-650px'}}>
+      <div className='emailform'>
+        <form className='formemail' onSubmit={handlesubmitemail}>
+          <label>Enter your email</label>
+          <br/><br/>
+          <input type='email' className='emailinput' id="emailip" required></input>
+          <br/><br/>
+          <button type="submit" className='emailsubmit'>Submit</button>
+        </form>
+      </div>
+      <Table striped style={{ width: '50%', height: '200px', position:"relative",left:'700px' ,top:'-800px'}}>
       <thead>
         <tr>
           <th colSpan={4} style={{textAlign:"center",fontSize:"30px",color:"green"}}>Freshfare</th>
