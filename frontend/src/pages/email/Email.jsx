@@ -18,7 +18,7 @@ const Email = () => {
                 localStorage.setItem("lock",loked);
                 const role = res.data.role;
                 localStorage.setItem("role",role);
-                navigate("/otp");
+                navigate(`/otp/${email}`);
             })
     }
   return (

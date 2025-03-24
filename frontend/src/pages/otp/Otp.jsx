@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import axios from "axios"
 import {Form, FormControl,Button} from "react-bootstrap"
 import "../otp/Otp.css"
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 const Otp = () => {
-    const url = "http://localhost:5000/login1//verifyotp";
+    const {email} = useParams();
+    const url = "http://localhost:5000/login1/verifyotp";
     const navigate = useNavigate();
     const [otp,setotp] = useState('');
     const handleSubmit = async(e) =>{
@@ -17,7 +18,7 @@ const Otp = () => {
                 "Authorization":`Bearer ${token}`
             }
         }).then(()=>{
-            navigate("/reset-password");
+            navigate(`/reset-password/${email}`);
         })  
     }
   return (

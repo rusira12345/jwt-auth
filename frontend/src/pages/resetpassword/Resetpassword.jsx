@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import axios from "axios"
 import {Form, FormControl,Button} from "react-bootstrap"
 import "../resetpassword/reset.css"
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 function Resetpassword() {
+    const {email} = useParams();
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
     const URL = "http://localhost:5000/login2/reset-password"
@@ -11,7 +12,8 @@ function Resetpassword() {
     const handleSubmit = async(e)=>{
             e.preventDefault();
             await axios.post(URL,{
-                password:password
+                password:password,
+                email:email
             },{
                 headers:{
                     "Authorization":`Bearer ${token}`

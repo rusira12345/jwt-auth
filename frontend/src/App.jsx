@@ -21,8 +21,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Login/>}/>
           <Route path="/email" element={<Email/>}/>
-          <Route path="/otp" element={<Otp/>}/>
-          <Route path="/reset-password" element={<Resetpassword/>}/>
+          <Route path="/otp/:email" element={<Otp/>}/>
+          <Route path="/reset-password/:email" element={<Resetpassword/>}/>
           <Route path="/cashier-dashboard" element={<CashierDashboard/>}/>
           <Route path="/owner-dashboard" element={<OwnerDashboard/>}/>
           <Route path="/Manager-dashboard" element={<ManagerDashboard/>}/>

@@ -40,8 +40,7 @@ const Cash = () => {
         })
     }
   return (
-    <div className='background'>
-      
+    <div>
       <form className='cash' onSubmit={handlesubmit}>
          <div> 
          <label>Total price:</label><div className='totalprice'>{total}</div>
