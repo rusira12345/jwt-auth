@@ -2,6 +2,7 @@ import React, {   useEffect, useState } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import axios from "axios"
 import "./Cashierdashboard.css"
+import { ToastContainer, toast,Bounce } from 'react-toastify';
 import {useNavigate} from "react-router-dom"
 import Table from 'react-bootstrap/Table';
 import { MdOutlineDeleteOutline } from "react-icons/md";
@@ -39,8 +40,39 @@ const CashierDashboard = () => {
   const [barcodes,setbarcodes] = useState('');
   const totalprice = parseFloat(cartitems.reduce((acc, item) => acc + item.price, 0).toFixed(2));
   const handleSubmit = async(e) =>{
+   
     e.preventDefault();
-    const token = localStorage.getItem("token");
+    if(!barcode)
+      {
+        toast.error('your barcode is empty', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+          })
+      }
+      else if(isNaN(barcode))
+      {
+        toast.error('your barcode is not valid', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+          })
+      }
+    else
+      {
+      const token = localStorage.getItem("token");
       await axios.post(URL,{
         Barcode:barcode
       },{
@@ -63,6 +95,7 @@ const CashierDashboard = () => {
           total = 0;
           setbarcode('');
       })
+    }
   }
   function addproduct()
   {
@@ -208,6 +241,7 @@ const CashierDashboard = () => {
         </tr>
       </tbody>
     </Table>
+    <ToastContainer/>
       </div>
     
   )
